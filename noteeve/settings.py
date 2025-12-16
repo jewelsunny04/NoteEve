@@ -161,5 +161,4 @@ TINYMCE_DEFAULT_CONFIG = {
 # --------------------------------------------------
 # DEFAULT PK
 # --------------------------------------------------
-
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
