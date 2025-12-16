@@ -16,10 +16,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config("SECRET_KEY", default="django-insecure-temp-key")
 
 DEBUG = config("DEBUG", default=False, cast=bool)
-
 ALLOWED_HOSTS = config(
     "ALLOWED_HOSTS",
-    default="localhost,127.0.0.1",
+    default="localhost,127.0.0.1,noteeve-production.up.railway.app",
     cast=Csv()
 )
 
