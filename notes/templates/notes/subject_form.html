@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}{% if subject %}Edit{% else %}Create{% endif %} Subject - NoteEve{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center">
+    <div class="col-md-8">
+        <h1 class="mb-4">
+            {% if subject %}
+            <i class="fas fa-edit"></i> Edit Subject
+            {% else %}
+            <i class="fas fa-plus"></i> New Subject
+            {% endif %}
+        </h1>
+
+        <form method="post" class="card shadow-sm p-4">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <label class="form-label">Subject Name</label>
+                {{ form.name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                {{ form.description }}
+            </div>
+
+            {% if form.errors %}
+            <div class="alert alert-danger">{{ form.errors }}</div>
+            {% endif %}
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="{% url 'subject_list' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

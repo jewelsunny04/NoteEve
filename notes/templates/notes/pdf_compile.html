@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}PDF Compiler - NoteEve{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1><i class="fas fa-file-pdf"></i> Compile Notes to PDF</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post" class="card shadow-sm p-4">
+            {% csrf_token %}
+
+            <h5 class="mb-3">Select Notes to Compile</h5>
+
+            {% for subject in subjects %}
+            <div class="mb-3 p-3 border rounded">
+                <h6><strong>{{ subject.name }}</strong></h6>
+
+                {% for topic in subject.topics.all %}
+                <div class="ms-3 mb-2">
+                    <strong class="text-primary">{{ topic.name }}</strong>
+
+                    {% for note in topic.notes.all %}
+                    <div class="form-check ms-4">
+                        <input 
+                            class="form-check-input" 
+                            type="checkbox" 
+                            name="note_ids" 
+                            value="{{ note.pk }}" 
+                            id="note{{ note.pk }}"
+                        >
+                        <label class="form-check-label" for="note{{ note.pk }}">
+                            {{ note.title }} 
+                            <small class="text-muted">({{ note.created_at|date:"M d" }})</small>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            {% empty %}
+            <div class="alert alert-warning">
+                No subjects with notes found. 
+                <a href="{% url 'subject_create' %}">Create subject</a>
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary btn-lg mt-3">
+                <i class="fas fa-download"></i> Generate & Download PDF
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

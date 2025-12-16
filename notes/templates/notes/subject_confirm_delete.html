@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Subject - NoteEve{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card border-danger shadow-sm">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-exclamation-triangle"></i> Delete Subject
+                </h5>
+            </div>
+
+            <div class="card-body">
+                <p>Are you sure you want to delete <strong>{{ subject.name }}</strong>?</p>
+                <p class="text-danger">
+                    <strong>This action cannot be undone! All topics and notes will be deleted.</strong>
+                </p>
+            </div>
+
+            <div class="card-footer">
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete Permanently</button>
+                    <a href="{% url 'subject_list' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

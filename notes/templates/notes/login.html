@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Login - NoteEve{% endblock %}
+
+{% block content %}
+
+<style>
+    body {
+        background: #f4f8ff;
+    }
+
+    .auth-card {
+        border-radius: 16px;
+        padding: 40px 35px;
+        background: white;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+        border: 1px solid #e3e9ff;
+    }
+
+    .auth-title {
+        font-weight: 700;
+        color: #0d6efd;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    .auth-subtitle {
+        font-size: 15px;
+        color: #555;
+        margin-top: -5px;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+
+    .tab-switch {
+        border-radius: 10px;
+        background: #e7f1ff;
+        padding: 6px;
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+
+    .tab-switch a {
+        text-decoration: none;
+        width: 50%;
+        text-align: center;
+        padding: 10px;
+        font-weight: 600;
+        border-radius: 8px;
+        color: #555;
+        transition: 0.2s;
+    }
+
+    .tab-active {
+        background: white;
+        color: #0d6efd !important;
+        box-shadow: 0 4px 10px rgba(13,110,253,0.2);
+    }
+
+    .form-control {
+        height: 48px;
+        border-radius: 10px;
+    }
+
+    .btn-login {
+        background: #0d6efd;
+        border: none;
+        width: 100%;
+        height: 48px;
+        color: white;
+        font-weight: 600;
+        border-radius: 12px;
+        margin-top: 10px;
+        transition: 0.2s;
+    }
+
+    .btn-login:hover {
+        background: #0b5ed7;
+    }
+
+</style>
+
+<div class="container mt-5 p-4">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="auth-card">
+
+                <!-- App Icon -->
+                <div class="text-center mb-3">
+                    <div style="
+                        width: 60px;
+                        height: 60px;
+                        background: #0d6efd;
+                        color: white;
+                        border-radius: 14px;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 28px;
+                    ">
+                        📘
+                    </div>
+                </div>
+
+                <h2 class="auth-title">Welcome Back</h2>
+                <p class="auth-subtitle">Log in to continue</p>
+
+                <!-- Tabs -->
+                <div class="tab-switch">
+                    <a href="{% url 'login' %}" class="tab-active">Sign In</a>
+                    <a href="{% url 'register' %}">Sign Up</a>
+                </div>
+
+                <!-- Login Form -->
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <label class="mb-1">Username</label>
+                    <input type="text" name="username" class="form-control mb-3" placeholder="Enter username" required>
+
+                    <label class="mb-1">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+
+                    <button class="btn-login" type="submit">Sign In</button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

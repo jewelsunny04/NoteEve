@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}{{ subject.name }} - NoteEve{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <h1>{{ subject.name }}</h1>
+        <p class="text-muted">{{ subject.description }}</p>
+    </div>
+
+    <div class="col-md-4 text-end">
+
+        <!-- Add Topic -->
+        <a href="{% url 'topic_create' subject.pk %}" class="btn btn-primary mb-2">
+            <i class="fas fa-plus"></i> Add Topic
+        </a>
+
+        <!-- Collaborators -->
+        <a href="{% url 'collaboration_manage' subject.pk %}" class="btn btn-warning mb-2">
+            <i class="fas fa-users"></i> Collaborators
+        </a>
+
+        <!-- PDF Compiler -->
+        <a href="{% url 'pdf_compile' %}" class="btn btn-info mb-2">
+            <i class="fas fa-file-pdf"></i> Compile PDF
+        </a>
+
+    </div>
+</div>
+
+<hr>
+
+<!-- TOPICS & NOTES LIST -->
+<div class="row">
+    {% for topic in topics %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h5 class="mb-0">{{ topic.name }}</h5>
+            </div>
+
+            <div class="card-body">
+                <p>{{ topic.description }}</p>
+                <small class="text-muted">{{ topic.notes.count }} notes</small>
+            </div>
+
+            <div class="card-footer d-flex gap-2">
+                <a href="{% url 'note_create' topic.pk %}" class="btn btn-sm btn-success">
+                    <i class="fas fa-note"></i> Add Note
+                </a>
+                <a href="{% url 'topic_edit' topic.pk %}" class="btn btn-sm btn-warning">
+                    Edit
+                </a>
+            </div>
+        </div>
+
+        <!-- NOTES UNDER EACH TOPIC -->
+        {% for note in topic.notes.all %}
+        <div class="card mt-2 ms-3 shadow-sm">
+            <div class="card-body">
+                <h6>{{ note.title }}</h6>
+                <small class="text-muted">
+                    {{ note.created_at|date:"M d, Y" }}
+                </small>
+            </div>
+            <div class="card-footer d-flex gap-2">
+                <a href="{% url 'note_view' note.pk %}" class="btn btn-sm btn-info">View</a>
+                <a href="{% url 'note_edit' note.pk %}" class="btn btn-sm btn-warning">Edit</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% empty %}
+    <div class="col-md-12">
+        <p class="text-muted">No topics yet.</p>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}AI Summarizer - NoteEve{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1><i class="fas fa-robot"></i> AI Summarizer Bot</h1>
+        <p class="text-muted">Summarize notes, PDFs, and manual text using AI.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+
+    <!-- LEFT COLUMN -->
+    <div class="col-md-8">
+
+        <!-- TEXT INPUT -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Summarize Text</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{% url 'summarizer' %}">
+                    {% csrf_token %}
+                    <textarea name="user_text"
+                              class="form-control"
+                              rows="6"
+                              placeholder="Write or paste text here..."></textarea>
+
+                    <button class="btn btn-primary mt-3 w-100">
+                        <i class="fas fa-magic"></i> Summarize Text
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- PDF UPLOAD -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">Summarize PDF</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'summarizer' %}">
+                    {% csrf_token %}
+                    <input type="file" name="pdf_file" class="form-control" accept="application/pdf">
+
+                    <button class="btn btn-warning mt-3 w-100">
+                        <i class="fas fa-file-pdf"></i> Summarize PDF
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div class="col-md-4">
+
+        <div class="card shadow-sm mb-4">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">How It Works</h5>
+            </div>
+            <div class="card-body">
+                <ol>
+                    <li>Paste text or upload a PDF</li>
+                    <li>Click the summarize button</li>
+                    <li>AI extracts key points & keywords</li>
+                    <li>Your summary appears below</li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">Features</h5>
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li>Auto-summarization</li>
+                    <li>PDF & Text support</li>
+                    <li>Fast & offline</li>
+                    <li>AI-powered notes</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- SUMMARY OUTPUT -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="fas fa-align-left"></i> Summary Output</h5>
+            </div>
+            <div class="card-body" style="min-height: 180px;">
+                {% if summary_output %}
+                    <p>{{ summary_output }}</p>
+                {% else %}
+                    <p class="text-muted">Your summary will appear here after processing.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

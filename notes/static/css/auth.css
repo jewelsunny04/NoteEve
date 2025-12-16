@@ -1,0 +1,26 @@
+/* ============================
+   AUTH PAGE ONLY CSS
+============================ */
+
+body {
+    background: #f4f8ff !important;
+}
+
+.auth-card {
+    border-radius: 18px;
+    padding: 40px 35px;
+    background: white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.btn-auth {
+    background: #162f4a;
+    color: white;
+    padding: 12px;
+}
+
+.auth-title {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+}

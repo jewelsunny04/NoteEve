@@ -1,0 +1,260 @@
+/* =========================================
+   GLOBAL COLORS
+========================================= */
+:root {
+    --primary: #0d6efd;
+    --secondary: #6c757d;
+    --success: #198754;
+    --info: #0dcaf0;
+    --warning: #ffc107;
+    --danger: #dc3545;
+
+    --sidebar-width: 260px;
+    --bg-light: #f8f9fa;
+    --text-dark: #333;
+}
+
+/* =========================================
+   BASE STYLE
+========================================= */
+body {
+    background-color: var(--bg-light);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    min-height: 70vh;
+}
+
+/* =========================================
+   SIDEBAR 
+========================================= */
+.layout {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background: #ffffff;
+    height: 100vh;
+    border-right: 1px solid #eee;
+    padding: 25px 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+}
+
+.sidebar-header .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #6a4df4;
+}
+
+.menu {
+    list-style: none;
+    padding: 0;
+    margin-top: 40px;
+}
+
+.menu li {
+    margin-bottom: 14px;
+}
+
+.menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 10px;
+    color: #444;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+.menu a:hover {
+    background: #f3ecff;
+    color: #6a4df4;
+}
+
+.menu a i {
+    font-size: 20px;
+}
+
+/* =========================================
+   USER BOX
+========================================= */
+.user-box {
+    position: absolute;
+    bottom: 20px;
+    width: calc(var(--sidebar-width) - 40px);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.user-icon {
+    background: #eee;
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.user-name {
+    font-weight: 600;
+}
+
+.user-email {
+    font-size: 13px;
+    color: gray;
+}
+
+.logout-btn {
+    display: block;
+    text-align: center;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #333;
+    transition: 0.2s;
+    border: 1px solid #ddd;
+}
+
+.logout-btn:hover {
+    background: #eee;
+}
+
+/* =========================================
+   MAIN CONTENT 
+========================================= */
+.main-content {
+    margin-left: var(--sidebar-width);
+    padding: 30px;
+    width: calc(100% - var(--sidebar-width));
+}
+
+/* =========================================
+   CARDS (SMALL DASHBOARD CARDS)
+========================================= */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 25px;
+}
+
+.dashboard-card {
+    padding: 18px 20px;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    min-height: 90px;
+    transition: 0.2s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.dashboard-card h4 {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.dashboard-card p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: var(--secondary);
+}
+
+/* =========================================
+   SECTION BOX
+========================================= */
+.section-box {
+    background: #fff;
+    padding: 20px;
+    border-radius: 14px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+
+.section-box h5 {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* =========================================
+   FORMS
+========================================= */
+.form-control,
+.form-select {
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* =========================================
+   TABLES / LISTS
+========================================= */
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.list-group-item {
+    border: 1px solid rgba(0,0,0,0.125);
+    margin-bottom: 0.5rem;
+    border-radius: 6px;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .main-content {
+        margin-left: 200px;
+        width: calc(100% - 200px);
+    }
+
+    .dashboard-card h4 {
+        font-size: 24px;
+    }
+}

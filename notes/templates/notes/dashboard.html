@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<style>
+.dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card-box {
+    padding: 20px;
+    border-radius: 14px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.2s ease;
+}
+
+.card-box:hover {
+    transform: translateY(-3px);
+    opacity: 0.92;
+}
+
+.card-title {
+    font-size: 15px;
+    opacity: 0.9;
+}
+
+.card-value {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.card-icon {
+    font-size: 40px;
+    opacity: 0.7;
+}
+
+.section-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 25px;
+    border: 1px solid #eee;
+}
+
+.progress-bar-container {
+    margin-bottom: 15px;
+}
+
+.progress-label {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.progress {
+    height: 10px;
+    border-radius: 5px;
+}
+</style>
+
+
+<h2 class="fw-bold mb-4">Dashboard</h2>
+
+<!-- ========================= -->
+<!-- TOP CARDS WITH LINKS -->
+<!-- ========================= -->
+<div class="dashboard-cards">
+
+    <a href="{% url 'subject_list' %}" style="text-decoration:none;">
+        <div class="card-box" style="background:#0d6efd">
+            <div>
+                <div class="card-title">Total Subjects</div>
+                <div class="card-value">{{ subjects_count }}</div>
+            </div>
+            <div class="card-icon">📘</div>
+        </div>
+    </a>
+
+    <a href="{% url 'note_list' %}" style="text-decoration:none;">
+        <div class="card-box" style="background:#198754;">
+            <div>
+                <div class="card-title">Total Notes</div>
+                <div class="card-value">{{ notes_count }}</div>
+            </div>
+            <div class="card-icon">📝</div>
+        </div>
+    </a>
+
+    <a href="{% url 'task_list' %}" style="text-decoration:none;">
+        <div class="card-box" style="background:#ffc107;">
+            <div>
+                <div class="card-title">Pending Tasks</div>
+                <div class="card-value">{{ pending_tasks }}</div>
+            </div>
+            <div class="card-icon">📌</div>
+        </div>
+    </a>
+
+    <a href="{% url 'bookmark_list' %}" style="text-decoration:none;">
+        <div class="card-box" style="background:#0dcaf0;">
+            <div>
+                <div class="card-title">Bookmarks</div>
+                <div class="card-value">{{ bookmarks }}</div>
+            </div>
+            <div class="card-icon">🔖</div>
+        </div>
+    </a>
+
+</div>
+
+<!-- ========================= -->
+<!-- SUBJECT PROGRESS -->
+<!-- ========================= -->
+<div class="section-box">
+    <h5 class="fw-bold mb-3">Subject Progress</h5>
+
+    {% for subject in subjects %}
+        <div class="progress-bar-container">
+            <div class="progress-label">{{ subject.name }} — {{ subject.progress }}%</div>
+            <div class="progress">
+                <div class="progress-bar bg-primary" style="width: {{ subject.progress }}%;"></div>
+            </div>
+        </div>
+    {% empty %}
+        <p>No subjects available.</p>
+    {% endfor %}
+</div>
+
+<!-- ========================= -->
+<!-- RECENT ACTIVITY + TASK REMINDERS -->
+<!-- ========================= -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="section-box">
+            <h5 class="fw-bold mb-3">Recent Activity</h5>
+
+            <ul class="list-group">
+                {% for item in recent_activity %}
+                <li class="list-group-item">{{ item }}</li>
+            {% empty %}
+                <p>No recent activity.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="section-box">
+            <h5 class="fw-bold mb-3">Upcoming Tasks</h5>
+
+            {% for task in upcoming_tasks %}
+                <div class="p-3 mb-2 rounded" style="background:#ffe7e7; border-left:4px solid red;">
+                    <strong>{{ task.title }}</strong><br>
+                    <small>Due: {{ task.due_date }}</small>
+                </div>
+            {% empty %}
+                <p>No upcoming tasks.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- ========================= -->
+<!-- QUICK ACTIONS -->
+<!-- ========================= -->
+<div class="section-box mt-4">
+    <h5 class="fw-bold">Quick Actions</h5>
+
+    <a href="{% url 'subject_list' %}" class="btn btn-primary w-100 mb-2">Browse Subjects</a>
+
+    <button class="btn btn-success w-100 mb-2" data-bs-toggle="modal" data-bs-target="#topicModal">
+        Create Note
+    </button>
+
+    <a href="{% url 'summarizer' %}" class="btn btn-info w-100 mb-2">AI Summarizer</a>
+
+    <a href="{% url 'task_list' %}" class="btn btn-warning w-100">Manage Tasks</a>
+</div>
+
+<!-- ========================= -->
+<!-- TOPIC MODAL -->
+<!-- ========================= -->
+<div class="modal fade" id="topicModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Choose Topic</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        {% for subject in subjects %}
+            <h6 class="fw-bold text-primary mt-3">{{ subject.name }}</h6>
+
+            {% for topic in subject.topics.all %}
+                <a href="{% url 'note_create' topic.id %}" class="btn btn-outline-primary w-100 mb-2">
+                    {{ topic.name }}
+                </a>
+            {% empty %}
+                <p class="text-muted small">No topics available.</p>
+            {% endfor %}
+        {% empty %}
+            <p>No subjects found.</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

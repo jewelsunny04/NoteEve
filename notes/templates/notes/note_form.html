@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{% if note %}Edit{% else %}Create{% endif %} Note - NoteEve{% endblock %}
+
+{% block extra_css %}
+<script src="https://cdn.tiny.cloud/1/ms2c1lfjk80vtbb4xld7cgj3j75jix1xojrglah4q6al3i4q/tinymce/6/tinymce.min.js"></script>
+<script>
+tinymce.init({
+    selector: 'textarea',
+    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center">
+    <div class="col-md-10">
+        <h1 class="mb-4">
+            {% if note %}
+            <i class="fas fa-edit"></i> Edit Note
+            {% else %}
+            <i class="fas fa-plus"></i> New Note
+            {% endif %}
+        </h1>
+
+        <form method="post" enctype="multipart/form-data" class="card shadow-sm p-4">
+            {% csrf_token %}
+
+            <div class="mb-3">
+                <label class="form-label">Title</label>
+                {{ form.title }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Content</label>
+                {{ form.content }}
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Upload File (PDF/TXT)</label>
+                {{ form.file_upload }}
+            </div>
+
+            <div class="mb-3 form-check">
+                {{ form.is_public }}
+                <label class="form-check-label">Make this note public</label>
+            </div>
+
+            {% if form.errors %}
+            <div class="alert alert-danger">{{ form.errors }}</div>
+            {% endif %}
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Save Note</button>
+                {% if topic %}
+                    <a href="{% url 'subject_detail' topic.subject.pk %}" class="btn btn-secondary">Cancel</a>
+                {% else %}
+                    <a href="{% url 'note_list' %}" class="btn btn-secondary">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

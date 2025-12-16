@@ -1,0 +1,198 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteEve - {% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background: #f9f9fc;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .layout {
+            display: flex;
+            width: 100%;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background: #fff;
+            height: 100vh;
+            border-right: 1px solid #eee;
+            padding: 25px 20px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-header .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 23px;
+            font-weight: 700;
+            color: #6a4df4;
+        }
+
+        .sidebar-header .icon {
+            font-size: 30px;
+        }
+
+        .menu {
+            list-style: none;
+            padding: 0;
+            margin-top: 40px;
+        }
+
+        .menu li {
+            margin-bottom: 14px;
+        }
+
+        .menu a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            color: #444;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+
+        .menu a:hover {
+            background: #f3ecff;
+            color: #6a4df4;
+        }
+
+        .menu a i {
+            font-size: 20px;
+        }
+
+        /* USER SECTION */
+        .user-box {
+            position: absolute;
+            bottom: 20px;
+            width: 85%;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .user-icon {
+            background: #eee;
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .user-name {
+            font-weight: 600;
+        }
+
+        .user-email {
+            font-size: 13px;
+            color: gray;
+        }
+
+        .logout-btn {
+            display: block;
+            text-align: center;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #333;
+            transition: 0.2s;
+            border: 1px solid #ddd;
+        }
+
+        .logout-btn:hover {
+            background: #eee;
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px;
+            width: calc(100% - 260px);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="icon">📘</span>
+                <span class="logo-text">NoteEve</span>
+            </div>
+        </div>
+
+        <ul class="menu">
+            <li><a href="{% url 'dashboard' %}"><i class="ri-home-5-line"></i> Dashboard</a></li>
+            <li><a href="{% url 'subject_list' %}"><i class="ri-folder-line"></i> Subjects</a></li>
+            <li><a href="{% url 'note_list' %}"><i class="ri-book-open-line"></i> Notes</a></li>
+            <li><a href="{% url 'task_list' %}"><i class="ri-check-line"></i> To-Do List</a></li>
+            <li><a href="{% url 'summarizer' %}"><i class="ri-magic-line"></i> AI Summarizer</a></li>
+            
+        </ul>
+
+        <div class="user-box">
+            <div class="user-info">
+                <div class="user-icon">👤</div>
+                <div>
+                    <div class="user-name">{{ request.user.username }}</div>
+                    <div class="user-email">{{ request.user.email }}</div>
+                </div>
+            </div>
+
+            <a href="{% url 'logout' %}" class="logout-btn">
+                <i class="ri-logout-box-line"></i> Sign Out
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="bg-light py-3 mt-4" style="margin-left:260px;">
+    <div class="container text-center">
+        <p>&copy; 2025 NoteEve. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

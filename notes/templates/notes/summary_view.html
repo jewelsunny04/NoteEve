@@ -1,0 +1,62 @@
+
+{% extends "base.html" %}
+
+{% block title %}Summary - NoteEve{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h1><i class="fas fa-lightbulb"></i> {{ note.title }}</h1>
+    </div>
+</div>
+
+<div class="row">
+
+    <!-- Summary -->
+    <div class="col-md-12">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-align-left"></i> AI-Generated Summary</h5>
+            </div>
+            <div class="card-body">
+                <p>{{ summary.summary_text }}</p>
+            </div>
+        </div>
+
+        <!-- Keywords -->
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-tags"></i> Key Keywords</h5>
+            </div>
+            <div class="card-body">
+                {% for keyword in summary.keywords %}
+                <span class="badge bg-secondary me-2 mb-2">{{ keyword }}</span>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Note Info -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="fas fa-info-circle"></i> Note Information</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Subject:</strong> {{ note.topic.subject.name }}</p>
+                <p><strong>Topic:</strong> {{ note.topic.name }}</p>
+                <p><strong>Created:</strong> {{ note.created_at|date:"F d, Y H:i" }}</p>
+                <p><strong>Owner:</strong> {{ note.owner.username }}</p>
+            </div>
+        </div>
+
+        <div class="mt-4 d-flex gap-2">
+            <a href="{% url 'note_view' note.pk %}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Back to Note
+            </a>
+            <a href="{% url 'subject_detail' note.topic.subject.pk %}" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Back to Subject
+            </a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

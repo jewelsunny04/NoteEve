@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}{{ note.title }} - NoteEve{% endblock %}
+
+{% block content %}
+
+<div class="row mb-4">
+    <div class="col-md-9">
+        <h1>{{ note.title }}</h1>
+        <small class="text-muted">
+            {{ note.topic.subject.name }} > {{ note.topic.name }}
+        </small>
+    </div>
+
+    <div class="col-md-3 text-end">
+
+        {% if user == note.owner %}
+            <!-- Edit -->
+            <a href="{% url 'note_edit' note.pk %}" class="btn btn-warning me-2">Edit</a>
+
+            <!-- Delete -->
+            <a href="{% url 'note_delete' note.pk %}" class="btn btn-danger me-2">Delete</a>
+
+            <!-- Mark Completed -->
+            {% if not note.is_completed %}
+                <a href="{% url 'note_complete' note.pk %}" class="btn btn-success me-2">
+                    ✓ Completed
+                </a>
+            {% else %}
+                <span class="badge bg-success me-2">Completed</span>
+            {% endif %}
+        {% endif %}
+
+        <!-- Bookmark Toggle -->
+        <form action="{% url 'bookmark_toggle' note.pk %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button class="btn {% if bookmarked %}btn-success{% else %}btn-outline-success{% endif %}">
+                <i class="fas fa-bookmark"></i>
+            </button>
+        </form>
+
+    </div>
+</div>
+
+<!-- CONTENT CARD -->
+<div class="card shadow-sm">
+    <div class="card-body">
+        {{ note.content|safe }}
+    </div>
+</div>
+
+<!-- FILE DOWNLOAD -->
+{% if note.file_upload %}
+    <div class="mt-3">
+        <a href="{{ note.file_upload.url }}" download class="btn btn-info">
+            <i class="fas fa-download"></i> Download File
+        </a>
+    </div>
+{% endif %}
+
+<!-- BACK BUTTON (FIXED) -->
+<div class="mt-4">
+    <a href="{% url 'subject_detail' note.topic.subject.pk %}" class="btn btn-secondary">
+        ← Back to Subject
+    </a>
+</div>
+
+{% endblock %}

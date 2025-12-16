@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<h2 class="fw-bold mb-3">All Notes</h2>
+
+<!-- Search + Filter -->
+<div class="d-flex gap-3 mb-4">
+
+    <input type="text" class="form-control" placeholder="Search notes..." id="searchInput">
+
+    <form method="get">
+        <select name="subject" class="form-select" onchange="this.form.submit()">
+            <option value="">All Subjects</option>
+            {% for subject in subjects %}
+                <option value="{{ subject.id }}" {% if subject.id == selected_subject %}selected{% endif %}>
+                    {{ subject.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </form>
+
+    {% if subjects.first and subjects.first.topics.first %}
+        <a href="{% url 'note_create' subjects.first.topics.first.id %}" class="btn btn-primary">
+            + Create Note
+        </a>
+    {% else %}
+        <button class="btn btn-secondary" disabled>No Topics</button>
+    {% endif %}
+</div>
+
+<!-- Notes -->
+{% for note in notes %}
+<div class="card mb-3 p-3">
+
+    <div class="d-flex justify-content-between">
+        <div>
+            <h5 class="fw-bold">
+                <a href="{% url 'note_view' note.id %}" class="text-decoration-none text-dark">
+                    {{ note.title }}
+                </a>
+            </h5>
+
+            <span class="badge bg-primary">{{ note.topic.subject.name }}</span>
+            <span class="badge bg-secondary">{{ note.topic.name }}</span>
+
+            {% if note.bookmarks.count > 0 %}
+                <span class="text-warning ms-2">★</span>
+            {% endif %}
+        </div>
+
+        <a href="{% url 'note_edit' pk=note.id %}" class="text-primary" style="font-size:20px;">
+            ✏️
+        </a>
+    </div>
+
+    <p class="mt-2 text-muted">
+        {{ note.content|truncatechars:180 }}
+    </p>
+
+</div>
+{% empty %}
+<p>No notes available.</p>
+{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,26 @@
+Django
+djangorestframework
+django-filter
+django-crispy-forms
+crispy-bootstrap5
+django-tinymce
+django-cors-headers
+
+gunicorn
+whitenoise
+
+psycopg2-binary
+dj-database-url
+python-decouple
+python-dotenv
+
+Pillow
+reportlab
+pdfminer.six
+PyPDF2
+
+openai
+django-storages[boto3]
+# transformers
+# torch --index-url https://download.pytorch.org/whl/cpu
+requests
