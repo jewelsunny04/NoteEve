@@ -139,14 +139,3 @@ This project demonstrates:
 * **TinyMCE** – Rich text editor
 * **ReportLab** – PDF generation
 * **Hugging Face Transformers** – AI summarization
-
----
-
-If you want, I can also:
-
-* Convert this into a **perfect GitHub README.md**
-* Shorten it for **resume / portfolio**
-* Create a **project description for interviews**
-* Generate a **one-page project PDF**
-
-Just tell me 👍
