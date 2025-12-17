@@ -13,7 +13,7 @@ HEADERS = {
 def generate_summary(text):
     """
     Generate a summary using Hugging Face Inference API (cloud-based).
-    No local ML, Railway-safe.
+    No local ML. Railway-safe.
     """
     if not HF_API_TOKEN:
         return "ERROR: Hugging Face API token not configured."
@@ -33,11 +33,11 @@ def generate_summary(text):
             json=payload,
             timeout=30,
         )
-
         response.raise_for_status()
+
         result = response.json()
 
-        # HuggingFace returns a list
+        # Hugging Face returns a list
         if isinstance(result, list) and "generated_text" in result[0]:
             return result[0]["generated_text"]
 
