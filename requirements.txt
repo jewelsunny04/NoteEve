@@ -24,3 +24,4 @@ django-storages[boto3]
 # transformers
 # torch --index-url https://download.pytorch.org/whl/cpu
 requests
+nltk

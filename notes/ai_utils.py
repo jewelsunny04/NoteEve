@@ -1,48 +1,54 @@
-import os
-import requests
+import re
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import sent_tokenize, word_tokenize
 
-HF_API_TOKEN = os.getenv("HF_API_TOKEN")
+# Download once (safe even on Railway)
+try:
+    nltk.data.find("tokenizers/punkt")
+except LookupError:
+    nltk.download("punkt")
+    nltk.download("stopwords")
 
-API_URL = "https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn"
-
-HEADERS = {
-    "Authorization": f"Bearer {HF_API_TOKEN}",
-    "Content-Type": "application/json",
-}
-
-def generate_summary(text):
+def generate_summary(text, max_sentences=5):
     """
-    Generate summary using Hugging Face Inference API
-    (facebook/bart-large-cnn)
+    Extractive summarization (NO AI, NO API)
     """
+    if not text or len(text.split()) < 50:
+        return "Text is too short to summarize."
 
-    if not HF_API_TOKEN:
-        return "ERROR: Hugging Face API token not configured."
+    text = re.sub(r"\s+", " ", text)
 
-    payload = {
-        "inputs": text,
-        "parameters": {
-            "max_length": 150,
-            "min_length": 40,
-            "do_sample": False
-        }
-    }
+    sentences = sent_tokenize(text)
+    words = word_tokenize(text.lower())
 
-    try:
-        response = requests.post(
-            API_URL,
-            headers=HEADERS,
-            json=payload,
-            timeout=30,
-        )
-        response.raise_for_status()
-        result = response.json()
+    stop_words = set(stopwords.words("english"))
 
-        # Expected HF response format
-        if isinstance(result, list) and "summary_text" in result[0]:
-            return result[0]["summary_text"]
+    # Word frequency
+    freq = {}
+    for word in words:
+        if word.isalpha() and word not in stop_words:
+            freq[word] = freq.get(word, 0) + 1
 
-        return "ERROR: Unexpected response from Hugging Face API."
+    if not freq:
+        return "Unable to summarize text."
 
-    except requests.exceptions.RequestException as e:
-        return f"ERROR: {str(e)}"
+    max_freq = max(freq.values())
+    for word in freq:
+        freq[word] /= max_freq
+
+    # Sentence scoring
+    sentence_scores = {}
+    for sentence in sentences:
+        for word in word_tokenize(sentence.lower()):
+            if word in freq:
+                sentence_scores[sentence] = sentence_scores.get(sentence, 0) + freq[word]
+
+    # Select top sentences
+    top_sentences = sorted(
+        sentence_scores,
+        key=sentence_scores.get,
+        reverse=True
+    )[:max_sentences]
+
+    return " ".join(top_sentences)
