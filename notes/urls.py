@@ -43,7 +43,8 @@ urlpatterns = [
     path('notes/<int:pk>/', views.note_view, name='note_view'),
     path('notes/<int:pk>/edit/', views.note_edit, name='note_edit'),
     path('notes/<int:pk>/delete/', views.note_delete, name='note_delete'),
-
+    path('notes/create/<int:topic_id>/', views.note_create, name='note_create'),
+    
     # ------------------------
     # BOOKMARKS
     # ------------------------
