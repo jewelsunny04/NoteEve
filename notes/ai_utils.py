@@ -3,7 +3,7 @@ import requests
 
 HF_API_TOKEN = os.getenv("HF_API_TOKEN")
 
-API_URL = "https://api-inference.huggingface.co/models/facebook/bart-large-cnn"
+API_URL = "https://router.huggingface.co/hf-inference/models/facebook/bart-large-cnn"
 
 HEADERS = {
     "Authorization": f"Bearer {HF_API_TOKEN}",
