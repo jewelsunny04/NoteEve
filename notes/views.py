@@ -21,41 +21,6 @@ from .forms import (
 # ============================================================
 # AI SUMMARY HELPER
 # ============================================================
-def generate_summary(text):
-    """
-    Generate a summary using Hugging Face Inference API (cloud-based).
-    No local ML. Railway-safe.
-    """
-    if not HF_API_TOKEN:
-        return "ERROR: Hugging Face API token not configured."
-
-    payload = {
-        "inputs": f"Summarize the following text:\n{text}",
-        "parameters": {
-            "max_new_tokens": 150,
-            "temperature": 0.3,
-        },
-    }
-
-    try:
-        response = requests.post(
-            API_URL,
-            headers=HEADERS,
-            json=payload,
-            timeout=30,
-        )
-        response.raise_for_status()
-
-        result = response.json()
-
-        # Hugging Face returns a list
-        if isinstance(result, list) and "generated_text" in result[0]:
-            return result[0]["generated_text"]
-
-        return "ERROR: Unexpected response from Hugging Face API."
-
-    except requests.exceptions.RequestException as e:
-        return f"ERROR: {str(e)}"
 
 # ============================================================
 # HOME / AUTH
@@ -270,17 +235,27 @@ def topic_create(request, subject_id):
 @login_required
 def topic_edit(request, pk):
     topic = get_object_or_404(Topic, pk=pk, subject__owner=request.user)
+    subject = topic.subject  # ✅ IMPORTANT
 
     if request.method == "POST":
         form = TopicForm(request.POST, instance=topic)
         if form.is_valid():
             form.save()
             messages.success(request, "Topic updated!")
-            return redirect("subject_detail", pk=topic.subject.pk)
+            return redirect("subject_detail", pk=subject.pk)
     else:
         form = TopicForm(instance=topic)
 
-    return render(request, "notes/topic_form.html", {"form": form})
+    return render(
+        request,
+        "notes/topic_form.html",
+        {
+            "form": form,
+            "subject": subject,  # ✅ REQUIRED for template
+            "topic": topic       # (optional but useful)
+        }
+    )
+
 
 
 # ============================================================
