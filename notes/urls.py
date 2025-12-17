@@ -18,8 +18,7 @@ urlpatterns = [
     # ------------------------
     path('subjects/', views.subject_list, name='subject_list'),
     path('subjects/create/', views.subject_create, name='subject_create'),
-    path('notes/', views.note_list, name='note_list'),
-    path('notes/<int:pk>/complete/', views.note_complete, name='note_complete'),
+
 
     # MUST COME BEFORE subject_detail
     path('subjects/<int:subject_id>/collaborators/',
@@ -39,11 +38,30 @@ urlpatterns = [
     # ------------------------
     # NOTES
     # ------------------------
-    path('notes/create/<int:topic_id>/', views.note_create, name='note_create'),
-    path('notes/<int:pk>/', views.note_view, name='note_view'),
-    path('notes/<int:pk>/edit/', views.note_edit, name='note_edit'),
-    path('notes/<int:pk>/delete/', views.note_delete, name='note_delete'),
-    path('notes/create/<int:topic_id>/', views.note_create, name='note_create'),
+    # path('notes/create/<int:topic_id>/', views.note_create, name='note_create'),
+    # path('notes/<int:pk>/', views.note_view, name='note_view'),
+    # path('notes/<int:pk>/edit/', views.note_edit, name='note_edit'),
+    # path('notes/<int:pk>/delete/', views.note_delete, name='note_delete'),
+    # path('notes/', views.note_list, name='note_list'),
+    # path('notes/<int:pk>/complete/', views.note_complete, name='note_complete'),
+    
+    path("notes/", views.note_list, name="note_list"),
+
+    path("notes/create/<int:topic_id>/",
+         views.note_create,
+         name="note_create"),
+
+    path("notes/<int:pk>/",
+         views.note_view,
+         name="note_view"),
+
+    path("notes/<int:pk>/edit/",
+         views.note_edit,
+         name="note_edit"),
+
+    path("notes/<int:pk>/delete/",
+         views.note_delete,
+         name="note_delete"),
     
     # ------------------------
     # BOOKMARKS
