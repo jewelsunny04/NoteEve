@@ -1,6 +1,3 @@
-Here’s your content rewritten in a **clean, professional, well-structured format** with **clear headings** and **bolded key terms**, suitable for **README.md**, **project report**, or **portfolio description**.
-
----
 
 # 🚀 **NoteEve – AI-Enabled Smarter Notes**
 
