@@ -136,3 +136,7 @@ This project demonstrates:
 * **TinyMCE** – Rich text editor
 * **ReportLab** – PDF generation
 * **Hugging Face Transformers** – AI summarization
+
+## *Contributors**
+Jewel Rachel Sunny
+Anurodh Jatav
