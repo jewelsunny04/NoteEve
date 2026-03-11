@@ -138,5 +138,5 @@ This project demonstrates:
 * **Hugging Face Transformers** – AI summarization
 
 ## *Contributors**
-Jewel Rachel Sunny
-Anurodh Jatav
+*Jewel Rachel Sunny
+*Anurodh Jatav
